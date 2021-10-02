@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'estilo.dart';
+import 'package:sunbox/controller/ControllerNavigation.dart';
+import '../prefabs/estilo.dart';
 
 
 class Tela_inicial extends StatefulWidget {
@@ -15,8 +16,8 @@ class Tela_inicial_Estado extends State<Tela_inicial> with SingleTickerProviderS
 
   var _visible = true;
 
-  AnimationController animationController;
-  Animation<double> animation;
+  late AnimationController animationController;
+  late Animation<double> animation;
 
   startTime() async {
     var _duration = new Duration(seconds: 2);
@@ -30,7 +31,9 @@ class Tela_inicial_Estado extends State<Tela_inicial> with SingleTickerProviderS
   }
 
   void navigationPage() {
-   }
+    Navegacao.start(context);
+
+  }
 
   @override
   void initState() {
@@ -59,20 +62,13 @@ class Tela_inicial_Estado extends State<Tela_inicial> with SingleTickerProviderS
         fit: StackFit.expand,
         children: <Widget>[
           new Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-
-              // Padding(padding: EdgeInsets.only(bottom: 40.0),child:new Image.asset('assents/ort.png',height: 87.0,width:115.0 ,fit: BoxFit.scaleDown,))
-
-            ],),
-          new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(bottom: 40),
+
                 child:new Image.asset(
-                  'assents/logo.png',
+                  'files/logo.png',
                   width: 150,
                   height: 150,
                 ),

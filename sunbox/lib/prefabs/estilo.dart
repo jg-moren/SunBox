@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Estilo {
   //cria a classe estilo, essa usado no codigo inteiro, para fontes e cores do aplicativo
-  static const corPrimaria =  Color(0xff262222);
-  static const corSecundaria = Color(0xffF85900);
+  static const corPrimaria = MaterialColor(0xff262222,{} );
+  static const corSecundaria = MaterialColor(0xffF85900,{} );
   static const corTerciaria = Colors.white;
   static const corDesativado = MaterialColor(0xff000000,{
     50: Color.fromRGBO(0,0, 0, .1),
