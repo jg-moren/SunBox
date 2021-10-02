@@ -12,7 +12,11 @@ class Menu extends StatefulWidget {
 class Menu_Estado extends State<Menu> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
         backgroundColor: Estilo.corPrimaria,
         body: Center(
           child: Container(
@@ -25,23 +29,22 @@ class Menu_Estado extends State<Menu> {
                   height: 150,
                 ),
                 Container(
-                  margin: EdgeInsets.all(15),
-                  width: MediaQuery.of(context).size.width*0.7,
+                    margin: EdgeInsets.all(15),
+                    width: MediaQuery.of(context).size.width * 0.7,
                     height: 50,
                     child: Button.buttonMenu(
-                  onPressed: () => Navegacao.novo(context),
-                  text: Text(
-                    "New search",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                )),
+                      onPressed: () => Navegacao.novo(context),
+                      text: Text(
+                        "New search",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
                 Container(
                     margin: EdgeInsets.all(15),
-
-                    width: MediaQuery.of(context).size.width*0.7,
-                    height:50,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: 50,
                     child: Button.buttonMenu(
-                      onPressed: () {},
+                      onPressed: () => Navegacao.saves(context),
                       text: Text(
                         "My locations",
                         style: TextStyle(color: Colors.white),
@@ -50,6 +53,8 @@ class Menu_Estado extends State<Menu> {
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
