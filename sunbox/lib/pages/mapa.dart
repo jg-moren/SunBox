@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
@@ -8,9 +9,15 @@ import 'package:location/location.dart';
 import 'package:sunbox/controller/ControllerNavigation.dart';
 import 'package:sunbox/prefabs/button.dart';
 import 'package:sunbox/prefabs/estilo.dart';
-
+import 'package:geocode/geocode.dart';
+import 'package:http/http.dart' as http;
+import '../prefabs/PopUp.dart';
 
 class Mapa extends StatefulWidget {
+  final salvar;
+
+  Mapa(this.salvar);
+
   @override
   MapaEstado createState() => MapaEstado();
 
@@ -18,6 +25,8 @@ class Mapa extends StatefulWidget {
 }
 
 class MapaEstado extends State<Mapa> {
+  String? endereco;
+
   LatLng? _userLocation;
   LatLng? cameraPosition;
 
@@ -26,8 +35,21 @@ class MapaEstado extends State<Mapa> {
     super.initState();
   }
 
-
-
+  Future<String> getAddress(LatLng coo) async {
+    try {
+      GeoCode geoCode = GeoCode();
+      return (await geoCode.reverseGeocoding(latitude: coo.latitude, longitude: coo.longitude)).streetAddress??"";
+    } catch (e) {
+      return "";
+    }
+  }
+/*
+  Future<String> getAddress (LatLng coo) async{
+    var request = await http.post(Uri.parse("https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyCl4glSwdD6FJuNFf6UiwFMit9wh4vhzFE"));
+    var adress = jsonDecode(request.body);
+    return request.body;
+  }
+*/
   @override
   Future<bool>? getUserLocation() async {
     Location location = new Location();
@@ -61,14 +83,15 @@ class MapaEstado extends State<Mapa> {
       appBar: AppBar(backgroundColor: Estilo.corPrimaria, automaticallyImplyLeading: false, actions: [
         Container(
             width: MediaQuery.of(context).size.width,
-
-            child:(cameraPosition != null)? Row(
-          children: [
-            Expanded(child: SizedBox()),
-            Text("Coo: ${cameraPosition?.latitude.toStringAsFixed(3)}, ${cameraPosition?.longitude.toStringAsFixed(3)}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold)),
-            Expanded(child: SizedBox()),
-          ],
-        ):null),
+            child: (cameraPosition != null)
+                ? Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Text(" ${endereco}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Expanded(child: SizedBox()),
+              ],
+            )
+                : null),
       ]),
       body: Center(
         child: Container(
@@ -91,9 +114,10 @@ class MapaEstado extends State<Mapa> {
                               });
                             },
                             onCameraIdle: () async {
-
+                              endereco = await getAddress(cameraPosition!);
+                              print("endereco ${endereco}");
                             },
-                            onMapCreated:(controller){
+                            onMapCreated: (controller) {
                               setState(() {
                                 cameraPosition = _userLocation;
                               });
@@ -126,7 +150,13 @@ class MapaEstado extends State<Mapa> {
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         color: Estilo.corPrimaria,
         child: Button.buttonMenu(
-            onPressed: () => Navegacao.resultado(context, cameraPosition),
+            onPressed: () {
+              if (widget.salvar) {
+                PopUp.salvar(context,cameraPosition,endereco);
+              } else {
+                Navegacao.resultado(context, cameraPosition);
+              }
+            },
             text: Text(
               "continue",
               style: TextStyle(color: Colors.white, fontSize: 20),
