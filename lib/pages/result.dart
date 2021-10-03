@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:sunbox/prefabs/estilo.dart';
 import 'package:sunbox/model/ponto_grafico.dart';
+import 'package:intl/intl.dart';
 
 class Result extends StatefulWidget {
   final double latitude, longitude;
@@ -24,17 +25,23 @@ class _ResultState extends State<Result> {
   _ResultState() : super();
 
   Widget botaoPeriodo(int id, Periodo valor) {
-    return TextButton(
-      onPressed: () => setState(() {
-        indexBotaoPeriodo = id;
-        periodo = valor;
-      }),
-      child: Text(
-        valor.nome,
-        style: TextStyle(
-          color: id == indexBotaoPeriodo ? Estilo.corSecundaria : Estilo.corTerciaria,
-          fontFamily: Estilo.fonteBotao,
-          fontSize: 16,
+    return Container(
+      //margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+      child: TextButton(
+        onPressed: () => setState(() {
+          indexBotaoPeriodo = id;
+          periodo = valor;
+        }),
+        child: SizedBox(
+          width: 20,
+          child: Text(
+            valor.nome,
+            style: TextStyle(
+              color: id == indexBotaoPeriodo ? Estilo.corSecundaria : Estilo.corTerciaria,
+              fontFamily: Estilo.fonteBotao,
+              fontSize: 10,
+            ),
+          ),
         ),
       ),
     );
@@ -115,29 +122,56 @@ class _ResultState extends State<Result> {
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                     child: Column(children: [
-                      Expanded(
-                        child: charts.TimeSeriesChart(
-                          [
+                      Flexible(
+                        child: SfCartesianChart(
+                          primaryXAxis: DateTimeAxis(
+                            majorGridLines: const MajorGridLines(width: 0),
+                            majorTickLines: const MajorTickLines(color: Estilo.corTerciaria),
+                            axisLine: const AxisLine(color: Estilo.corTerciaria),
+                            labelStyle: const TextStyle(color: Estilo.corSecundaria),
+                          ),
+                          primaryYAxis: NumericAxis(
+                            axisLine: const AxisLine(color: Estilo.corTerciaria),
+                            majorTickLines: const MajorTickLines(color: Estilo.corTerciaria),
+                            majorGridLines: const MajorGridLines(width: 0.5),
+                            labelStyle: const TextStyle(color: Estilo.corSecundaria),
+                          ),
+                          series: [
                             [
                               PontoGraficoIrradiacao(DateTime.now(), 200),
-                              PontoGraficoIrradiacao(DateTime(2020, 20, 10), 100),
-                              PontoGraficoIrradiacao(DateTime(2019, 20, 10), 90),
-                              PontoGraficoIrradiacao(DateTime(2018, 20, 10), 110),
-                            ].toSeries(),
+                              PontoGraficoIrradiacao(DateTime(2020, 10, 20), 180),
+                              PontoGraficoIrradiacao(DateTime(2019, 10, 20), 140),
+                              PontoGraficoIrradiacao(DateTime(2018, 10, 20), 110),
+                              PontoGraficoIrradiacao(DateTime(2017, 10, 20), 190),
+                              PontoGraficoIrradiacao(DateTime(2017, 5, 20), 100),
+                            ].toSeries()
                           ],
-                          behaviors: [
-                            charts.SeriesLegend(
-                              showMeasures: true,
-                              entryTextStyle: charts.TextStyleSpec(
-                                color: Estilo.corSecundariaCharts,
-                                fontFamily: Estilo.fonteBotao,
-                              ),
+                          title: ChartTitle(
+                            text: "Irradiation",
+                            textStyle: TextStyle(
+                              fontFamily: Estilo.fonteTexto,
+                              fontSize: 16,
+                              color: Estilo.corSecundaria,
                             ),
-                            //charts.ChartBehavior()
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Flexible(child: botaoPeriodo(0, Periodo.dia1)),
+                            Flexible(child: botaoPeriodo(1, Periodo.semana1)),
+                            Flexible(child: botaoPeriodo(2, Periodo.mes1)),
+                            Flexible(child: botaoPeriodo(3, Periodo.mes6)),
+                            Flexible(child: botaoPeriodo(4, Periodo.ano1)),
+                            Flexible(child: botaoPeriodo(5, Periodo.ano10)),
                           ],
                         ),
                       ),
-                      Row(children: []),
                     ]),
                   ),
                 ),

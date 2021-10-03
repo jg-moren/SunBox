@@ -1,5 +1,5 @@
 import 'dart:core';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:sunbox/prefabs/estilo.dart';
 
 class PontoGraficoIrradiacao {
@@ -10,13 +10,12 @@ class PontoGraficoIrradiacao {
 }
 
 extension ListaGraficoExtensao on List<PontoGraficoIrradiacao> {
-  charts.Series<PontoGraficoIrradiacao, DateTime> toSeries() {
-    return charts.Series(
-      id: "Irradiação",
-      domainFn: (ponto, _) => ponto.tempo,
-      measureFn: (ponto, _) => ponto.valor,
-      data: this,
-      seriesColor: Estilo.corSecundariaCharts,
+  FastLineSeries<PontoGraficoIrradiacao, DateTime> toSeries() {
+    return FastLineSeries(
+      yValueMapper: (ponto, _) => ponto.valor,
+      xValueMapper: (ponto, _) => ponto.tempo,
+      dataSource: this,
+      color: Estilo.corSecundaria,
     );
   }
 }

@@ -31,11 +31,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter_web: ^0.3.2
   http: ^0.13.3
-  charts_flutter:
-    git:
-      url: git://github.com/google/charts.git
-      path: charts_flutter
-
+  syncfusion_flutter_charts: ^19.3.43
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
