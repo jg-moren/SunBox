@@ -128,7 +128,7 @@ class MapaEstado extends State<Mapa> {
         child: Button.buttonMenu(
             onPressed: () => Navegacao.resultado(context, cameraPosition),
             text: Text(
-              "continue",
+              "Continue",
               style: TextStyle(color: Colors.white, fontSize: 20),
             )),
       ),

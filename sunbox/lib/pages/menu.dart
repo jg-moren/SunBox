@@ -28,26 +28,27 @@ class Menu_Estado extends State<Menu> {
                   width: 150,
                   height: 150,
                 ),
+                SizedBox(height: 15,),
                 Container(
                     margin: EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    height: 65,
                     child: Button.buttonMenu(
                       onPressed: () => Navegacao.novo(context),
                       text: Text(
                         "New search",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontFamily: "Roboto",fontSize: 17),
                       ),
                     )),
                 Container(
                     margin: EdgeInsets.all(15),
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 50,
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    height: 65,
                     child: Button.buttonMenu(
                       onPressed: () => Navegacao.saves(context),
                       text: Text(
                         "My locations",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white,fontFamily: "Roboto",fontSize: 17),
                       ),
                     ))
               ],
