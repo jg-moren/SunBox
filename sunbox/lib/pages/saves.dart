@@ -1,17 +1,25 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunbox/controller/ControllerNavigation.dart';
+import 'package:sunbox/model/model.dart';
 import 'package:sunbox/prefabs/button.dart';
 import '../prefabs/estilo.dart';
+
 import 'save.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+
+import 'package:provider/provider.dart';
+
+
 class Saves extends StatefulWidget {
   @override
   Saves_Estado createState() => Saves_Estado();
 }
 
 class Saves_Estado extends State<Saves> {
+
   List<Save> list = [];
   late SharedPreferences sharedPreferences;
 
@@ -25,6 +33,13 @@ class Saves_Estado extends State<Saves> {
     sharedPreferences = await SharedPreferences.getInstance();
     loadData();
   }
+
+  late Map<String, String> markers;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +62,19 @@ class Saves_Estado extends State<Saves> {
                   
                 ),
                 
+              ),
+              Expanded(child: SizedBox()),
+              Container( //cria a bola verde
+                margin: EdgeInsets.only(bottom: 20),
+                child: TextButton(child: ClipOval(
+                  child: Material(
+                    color: Colors.black,
+                    child: SizedBox(width: 65, height: 65, child: Icon(Icons.add, color: Colors.white,size: 30,)),//cria o icone dentro da bola verde
+                  ),
+                ), onPressed: () {
+                  Navegacao.mapa_save(context);
+
+                },)
               ),
             ],
           ),
