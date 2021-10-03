@@ -8,13 +8,16 @@ class Model{
 
   static Future<String> getValue() async {
     var prefs;
+    var markers;
     try{
       prefs = await SharedPreferences.getInstance();
     }catch(e){
       SharedPreferences.setMockInitialValues({"markers":""});
       prefs = await SharedPreferences.getInstance();
+       markers = prefs.getString("markers");
     }
 
-    return prefs.getString("markers") ?? "";
+    return markers ?? "";
+
   }
 }

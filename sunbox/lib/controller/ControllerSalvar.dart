@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:sunbox/model/model.dart';
 
 class Salvar {

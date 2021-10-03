@@ -80,14 +80,14 @@ class MapaEstado extends State<Mapa> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Estilo.corPrimaria, automaticallyImplyLeading: false, actions: [
+      appBar: AppBar(backgroundColor: Estilo.corPrimaria, automaticallyImplyLeading: true, actions: [
         Container(
             width: MediaQuery.of(context).size.width,
             child: (cameraPosition != null)
                 ? Row(
               children: [
                 Expanded(child: SizedBox()),
-                Text(" ${endereco}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text(endereco == null? "...":"${endereco}", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 Expanded(child: SizedBox()),
               ],
             )
@@ -158,8 +158,8 @@ class MapaEstado extends State<Mapa> {
               }
             },
             text: Text(
-              "continue",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+              "Continue",
+              style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: "Roboto"),
             )),
       ),
     );

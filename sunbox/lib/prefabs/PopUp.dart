@@ -18,6 +18,11 @@ class PopUp{
             ],
           ),
           actions: [
+
+            TextButton(
+              onPressed: () => Navigator.pop(contex),
+              child: Text("Skip"),
+            ),
             TextButton(
               onPressed: () {
                 Salvar.salvarLocalizacao(nome,endereco,coo);
@@ -26,10 +31,6 @@ class PopUp{
               },
               child: Text("Save"),
             ),
-            TextButton(
-              onPressed: () => Navigator.pop(contex),
-              child: Text("Cancel"),
-            )
           ],
         );
       },
